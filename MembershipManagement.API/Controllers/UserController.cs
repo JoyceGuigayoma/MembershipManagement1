@@ -2,6 +2,7 @@ using MembershipManagementServices;
 using MembershipManagement.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using MembershipManagementModels;
 
 namespace AccountManagement.API.Controllers
 {
@@ -19,34 +20,71 @@ namespace AccountManagement.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<MembershipManagement.API.User> GetUsers()
+        public IEnumerable<MembershipManagement.API.User> GetUsers(int recruitStatus)
         {
-            var activeusers = _userGetServices.GetUsersByStatus(1);
+            var activeUsers = _userGetServices.GetUsersByRecruit(recruitStatus);
 
-            List<MembershipManagement.API.User> users = new List<User>();
+            List<MembershipManagement.API.User> users = new List<MembershipManagement.API.User>();
 
-            foreach (var item in activeusers)
+            foreach (var item in activeUsers)
             {
-                users.Add(new MembershipManagement.API.User { username = item.username, password = item.password });
+                users.Add(new MembershipManagement.API.User
+                {
+                    username = item.username,
+                    password = item.password,
+                    recruit = item.recruit
+                });
             }
 
             return users;
         }
 
-        [HttpPost]
-        public JsonResult AddUser(User request)
-        {
-            var result = _userTransactionServices.CreateUser(request.username, request.password);
 
-            return new JsonResult(result);
+        [HttpPost]
+        public IActionResult AddUser(MembershipManagement.API.User request)
+        {
+            bool result = _userTransactionServices.CreateUser(request.username, request.password, request.recruit);
+
+            if (result)
+            {
+                return Ok("User added successfully");
+            }
+            else
+            {
+                return BadRequest("Failed to add user");
+            }
         }
 
-        [HttpPatch]
-        public JsonResult UpdateUser(User request)
-        {
-            var result = _userTransactionServices.UpdateUser(request.username, request.password);
 
-            return new JsonResult(result);
+
+        [HttpPatch]
+        public IActionResult UpdateUser(MembershipManagement.API.User request)
+        {
+            bool result = _userTransactionServices.UpdateUser(request.username, request.password, request.recruit);
+
+            if (result)
+            {
+                return Ok("User updated successfully");
+            }
+            else
+            {
+                return BadRequest("Failed to update user");
+            }
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteUser(string username, string password)
+        {
+            bool result = _userTransactionServices.DeleteUser(username, password);
+
+            if (result)
+            {
+                return Ok($"User '{username}' deleted successfully");
+            }
+            else
+            {
+                return NotFound($"User '{username}' not found or failed to delete");
+            }
         }
 
 

@@ -15,28 +15,53 @@ namespace MembershipManagementServices
 
         public bool CreateUser(Member user)
         {
-            bool result = false;
-
-            if (validationServices.CheckIfUserNameExists(user.username))
+            if (validationServices.CheckIfUserNameExists(user.username, user.password, user.recruit))
             {
-                result = userData.AddUser(user) > 0;
+                return userData.AddUser(user) > 0;
             }
-
-            return result;
+            return false;
         }
 
-        public bool CreateUser(string username, string password)
+
+
+        public bool CreateUser(string username, string password, int recruit)
         {
-            Member user = new Member { username = username, password = password };
+            if (validationServices.CheckIfUserNameExists(username, password, recruit))
+            {
+                MembershipManagementModels.Member user = new MembershipManagementModels.Member
+                {
+                    username = username,
+                    password = password,
+                    recruit = recruit
+                };
 
-            return CreateUser(user);
+                bool addUserResult = userData.AddUser(user) > 0;
+                if (addUserResult)
+                {
+                    Console.WriteLine($"User '{username}' added successfully.");
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to add user '{username}'.");
+                }
+
+                return addUserResult;
+            }
+            else
+            {
+                Console.WriteLine($"Validation failed for username '{username}', password '{password}', recruit '{recruit}'.");
+                return false;
+            }
         }
+
+
+
 
         public bool UpdateUser(Member user)
         {
             bool result = false;
 
-            if (validationServices.CheckIfUserNameExists(user.username))
+            if (validationServices.CheckIfUserNameExists(user.username, user.password, user.recruit))
             {
                 result = userData.UpdateUser(user) > 0;
             }
@@ -44,23 +69,56 @@ namespace MembershipManagementServices
             return result;
         }
 
-        public bool UpdateUser(string username, string password)
+        public bool UpdateUser(string username, string password, int recruit)
         {
-            Member user = new Member { username = username, password = password };
-
-            return UpdateUser(user);
-        }
-
-        public bool DeleteUser(Member user)
-        {
-            bool result = false;
-
-            if (validationServices.CheckIfUserNameExists(user.username))
+            MembershipManagementModels.Member user = new MembershipManagementModels.Member
             {
-                result = userData.DeleteUser(user) > 0;
+                username = username,
+                password = password,
+                recruit = recruit
+            };
+
+            bool result = validationServices.CheckIfUserNameExists(username, password, recruit);
+            if (result)
+            {
+                result = userData.UpdateUser(user) > 0;
             }
 
             return result;
         }
+
+
+        public bool DeleteUser(Member user)
+        {
+
+            Member existingUser = userData.GetUser(user.username, user.password);
+
+            if (existingUser != null)
+            {
+                return userData.DeleteUser(existingUser.username) > 0;
+            }
+            else
+            {
+                Console.WriteLine($"User '{user.username}' not found.");
+                return false;
+            }
+        }
+        public bool DeleteUser(string username, string password)
+        {
+            
+            Member existingUser = userData.GetUser(username, password);
+
+            if (existingUser != null)
+            {
+                return userData.DeleteUser(existingUser.username) > 0;
+            }
+            else
+            {
+                Console.WriteLine($"User '{username}' not found.");
+                return false;
+            }
+        }
+
     }
 }
+

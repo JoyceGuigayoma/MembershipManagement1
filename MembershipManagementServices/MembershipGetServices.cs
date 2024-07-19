@@ -1,63 +1,52 @@
 ﻿using MembershipManagementData;
 using MembershipManagementModels;
 
+
 namespace MembershipManagementServices
 {
     public class MembershipGetServices
     {
-        private List<Member> GetAllUsers()
+        private MemberData memberData;
+
+        public MembershipGetServices()
         {
-            MemberData userData = new MemberData();
-
-            return userData.GetUsers();
-
+            memberData = new MemberData();
         }
-
-        public List<Member> GetUsersByStatus(int userStatus)
+        public List<Member> GetUsersByRecruit(int recruitStatus)
         {
-            List<Member> usersByStatus = new List<Member>();
-
-            foreach (var user in GetAllUsers())
+            try
             {
-                if (user.recruit == userStatus)
-                {
-                    usersByStatus.Add(user);
-                }
+                return memberData.GetUsersByRecruit(recruitStatus);
             }
-
-            return usersByStatus;
-        }
-
-        public Member GetUser(string username, string password)
-        {
-            Member foundUser = new Member();
-
-            foreach (var user in GetAllUsers())
+            catch (Exception ex)
             {
-                if (user.username == username && user.password == password)
-                {
-                    foundUser = user;
-                }
+                Console.WriteLine("Error fetching users by recruit status: " + ex.Message);
+                throw;
             }
-
-            return foundUser;
         }
-
-        public Member GetUser(string username)
+        public Member GetUser(string username, string password, int recruit)
         {
-            Member foundUser = new Member();
-
-            foreach (var user in GetAllUsers())
+            try
             {
-                if (user.username == username)
-                {
-                    foundUser = user;
-                }
-            }
 
-            return foundUser;
+                return memberData.GetUser(username, password);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error fetching user: " + ex.Message);
+                throw;
+            }
         }
+
+        public Member AuthenticateUser(string username, string password)
+        {
+
+            Member user = memberData.GetUser(username, password);
+
+
+
+            return user;
+        }
+
     }
-
-
 }

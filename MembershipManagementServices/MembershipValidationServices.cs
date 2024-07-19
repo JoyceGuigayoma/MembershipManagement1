@@ -8,19 +8,36 @@ namespace MembershipManagementServices
 {
     public class MembershipValidationServices
     {
-        MembershipGetServices getservices = new MembershipGetServices();
+        private MembershipGetServices getServices;
 
-        public bool CheckIfUserNameExists(string username)
+        public MembershipValidationServices()
         {
-            bool result = getservices.GetUser(username) != null;
-            return result;
+            getServices = new MembershipGetServices();
         }
+
+        public bool CheckIfUserNameExists(string username, string password, int recruit)
+        {
+
+            bool isUsernameValid = true;
+            bool isCombinationValid = true;
+
+            if (isUsernameValid && isCombinationValid)
+            {
+                Console.WriteLine($"Username '{username}' does not exist and combination is valid.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine($"Username '{username}' already exists or combination is invalid.");
+                return false;
+            }
+        }
+
+
 
         public bool CheckIfUserExists(string username, string password)
         {
-            bool result = getservices.GetUser(username, password) != null;
-            return result;
+            return getServices.AuthenticateUser(username, password) != null;
         }
-
     }
 }

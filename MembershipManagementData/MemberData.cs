@@ -1,6 +1,7 @@
 ﻿using MembershipManagementModels;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,36 +10,84 @@ namespace MembershipManagementData
 {
     public class MemberData
     {
-        List<Member> users;
-        SqlDbData sqlData;
+        private SqlDbData sqlData;
+
         public MemberData()
         {
-            users = new List<Member>();
             sqlData = new SqlDbData();
-
-            //UserFactory _userFactory = new UserFactory();
-            //users = _userFactory.GetDummyUsers();
         }
 
-        public List<Member> GetUsers()
+        public List<Member> GetUsers(string username, string password, int recruit)
         {
-            users = sqlData.GetUsers();
-            return users;
+            try
+            {
+                return sqlData.GetUsers();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error fetching users: " + ex.Message);
+                throw;
+            }
+        }
+
+        public Member GetUser(string username, string password)
+        {
+
+            {
+                return sqlData.GetUser(username, password);
+            }
+        }
+
+        public List<Member> GetUsersByRecruit(int recruitStatus)
+        {
+            try
+            {
+                return sqlData.GetUsersByRecruit(recruitStatus);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error fetching users by recruit status: " + ex.Message);
+                throw;
+            }
         }
 
         public int AddUser(Member user)
         {
-            return sqlData.AddUser(user.username, user.password);
+            try
+            {
+                return sqlData.AddUser(user.username, user.password, user.recruit);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error adding user: " + ex.Message);
+                throw;
+            }
         }
 
         public int UpdateUser(Member user)
         {
-            return sqlData.UpdateUser(user.username, user.password);
+            try
+            {
+                return sqlData.UpdateUser(user.username, user.password, user.recruit);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error updating user: " + ex.Message);
+                throw;
+            }
         }
 
-        public int DeleteUser(Member user)
+        public int DeleteUser(string username)
         {
-            return sqlData.DeleteUser(user.username);
+            try
+            {
+                return sqlData.DeleteUser(username);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deleting user: " + ex.Message);
+                throw;
+            }
         }
     }
 }
