@@ -1,5 +1,6 @@
 ﻿using MembershipManagementData;
 using MembershipManagementModels;
+using MembershipEmailTools;
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
@@ -9,6 +10,7 @@ namespace MembershipManagement
 {
     public class Program
     {
+        private static MembershipEmailServices emailTool = new MembershipEmailServices();
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to UnityMembers Organization!");
@@ -92,6 +94,8 @@ namespace MembershipManagement
                 if (loggedInUser != null)
                 {
                     Console.WriteLine($"Welcome back, {loggedInUser.username}!");
+
+                    emailTool.LoginEmail(loggedInUser);
                     return true;
                 }
                 else
@@ -128,6 +132,8 @@ namespace MembershipManagement
             if (success > 0)
             {
                 Console.WriteLine($"Account created for {username} with {recruits} recruits!");
+
+                emailTool.RegistrationEmail(newMember);
             }
             else
             {

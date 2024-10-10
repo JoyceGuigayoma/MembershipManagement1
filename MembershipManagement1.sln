@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MembershipManagementModels", "MembershipManagement1\MembershipManagementModels.csproj", "{9099C939-435E-46BF-B1B8-F5432E668857}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MembershipManagementModels", "MembershipManagement1\MembershipManagementModels.csproj", "{9099C939-435E-46BF-B1B8-F5432E668857}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MembershipManagementData", "MembershipManagementData\MembershipManagementData.csproj", "{8C5E4C0C-003D-46D6-81E2-289DBB812ED4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MembershipManagementData", "MembershipManagementData\MembershipManagementData.csproj", "{8C5E4C0C-003D-46D6-81E2-289DBB812ED4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MembershipManagementServices", "MembershipManagementServices\MembershipManagementServices.csproj", "{D6B8EA6E-0421-4625-A2D2-3FFCAEEBEAF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MembershipManagementServices", "MembershipManagementServices\MembershipManagementServices.csproj", "{D6B8EA6E-0421-4625-A2D2-3FFCAEEBEAF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MembershipManagement", "MembershipManagement\MembershipManagement.csproj", "{56C4E87A-287F-4025-BF86-869AA7540200}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MembershipManagement", "MembershipManagement\MembershipManagement.csproj", "{56C4E87A-287F-4025-BF86-869AA7540200}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MembershipManagement.API", "MembershipManagement.API\MembershipManagement.API.csproj", "{8B216C2A-9E88-4A35-97B4-C99DEF8530A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MembershipManagement.API", "MembershipManagement.API\MembershipManagement.API.csproj", "{8B216C2A-9E88-4A35-97B4-C99DEF8530A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MembershipEmailTools", "MembershipEmailTools\MembershipEmailTools.csproj", "{161C20CA-F6EE-47BC-B378-1AA75236DD7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8B216C2A-9E88-4A35-97B4-C99DEF8530A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B216C2A-9E88-4A35-97B4-C99DEF8530A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B216C2A-9E88-4A35-97B4-C99DEF8530A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{161C20CA-F6EE-47BC-B378-1AA75236DD7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{161C20CA-F6EE-47BC-B378-1AA75236DD7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{161C20CA-F6EE-47BC-B378-1AA75236DD7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{161C20CA-F6EE-47BC-B378-1AA75236DD7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

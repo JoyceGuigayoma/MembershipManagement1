@@ -7,8 +7,8 @@ namespace MembershipManagementData
     public class SqlDbData : IDisposable
     {
         string connectionString
-        //= "Data Source=DESKTOP-20HVAVU\\SQLEXPRESS; Initial Catalog=MembershipManagement; Integrated Security=True;";
-        = "Server = tcp:20.205.140.106, 1433;Database= MembershipManagement; User Id = sa; Password = Joyce123;";
+        = "Data Source=DESKTOP-20HVAVU\\SQLEXPRESS; Initial Catalog=MembershipManagement; Integrated Security=True;";
+        //= "Server = tcp:20.205.140.106, 1433;Database= MembershipManagement; User Id = sa; Password = Joyce123;";
         SqlConnection sqlConnection;
         private bool disposed = false;
 
