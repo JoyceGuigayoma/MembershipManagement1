@@ -238,6 +238,34 @@ namespace MembershipManagementData
             }
         }
 
+        public List<Member> GetAllUsers()
+        {
+            string selectStatement = "SELECT username, password, recruit FROM users"; 
+            SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
+            sqlConnection.Open();
+            List<Member> users = new List<Member>();
+            SqlDataReader reader = selectCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string username = reader["username"].ToString();
+                string password = reader["password"].ToString();
+                int recruit = Convert.ToInt32(reader["recruit"]);
+
+                Member readUser = new Member
+                {
+                    username = username,
+                    password = password,
+                    recruit = recruit
+                };
+
+                users.Add(readUser);
+            }
+
+            sqlConnection.Close();
+            return users;
+        }
+
 
         public void Dispose()
         {

@@ -24,6 +24,19 @@ namespace MembershipManagementServices
                 throw;
             }
         }
+        public List<Member> GetAllUsers()
+        {
+            try
+            {
+                return memberData.GetAllUsers();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error fetching all users: " + ex.Message);
+                throw;
+            }
+        }
+
         public Member GetUser(string username, string password, int recruit)
         {
             try

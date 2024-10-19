@@ -20,9 +20,20 @@ namespace AccountManagement.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<MembershipManagement.API.User> GetUsers(int recruitStatus)
+        public IEnumerable<MembershipManagement.API.User> GetUsers(int? recruitStatus = null)
         {
-            var activeUsers = _userGetServices.GetUsersByRecruit(recruitStatus);
+            IEnumerable<Member> activeUsers;
+
+            if (recruitStatus.HasValue)
+            {
+                activeUsers = _userGetServices.GetUsersByRecruit(recruitStatus.Value);
+            }
+            else
+            {
+                activeUsers = _userGetServices.GetAllUsers();
+            }
+
+            Console.WriteLine($"Number of active users: {activeUsers.Count()}");
 
             List<MembershipManagement.API.User> users = new List<MembershipManagement.API.User>();
 
@@ -38,6 +49,7 @@ namespace AccountManagement.API.Controllers
 
             return users;
         }
+
 
 
         [HttpPost]
@@ -57,10 +69,15 @@ namespace AccountManagement.API.Controllers
 
 
 
-        [HttpPatch]
-        public IActionResult UpdateUser(MembershipManagement.API.User request)
+        [HttpPatch("{username}")]
+        public IActionResult UpdateUser(string username, [FromBody] MembershipManagement.API.User user)
         {
-            bool result = _userTransactionServices.UpdateUser(request.username, request.password, request.recruit);
+            if (user == null)
+            {
+                return BadRequest("User data is null.");
+            }
+
+            bool result = _userTransactionServices.UpdateUser(username, user.password, user.recruit);
 
             if (result)
             {
@@ -72,7 +89,8 @@ namespace AccountManagement.API.Controllers
             }
         }
 
-        [HttpDelete]
+
+        [HttpDelete("{username}")]
         public IActionResult DeleteUser(string username, string password)
         {
             bool result = _userTransactionServices.DeleteUser(username, password);
@@ -86,7 +104,6 @@ namespace AccountManagement.API.Controllers
                 return NotFound($"User '{username}' not found or failed to delete");
             }
         }
-
 
     }
 }

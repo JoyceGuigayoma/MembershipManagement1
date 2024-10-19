@@ -51,6 +51,20 @@ namespace MembershipManagementData
             }
         }
 
+        public List<Member> GetAllUsers()
+        {
+            try
+            {
+                
+                return sqlData.GetAllUsers(); 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error fetching all users: " + ex.Message);
+                throw;
+            }
+        }
+
         public int AddUser(Member user)
         {
             try
