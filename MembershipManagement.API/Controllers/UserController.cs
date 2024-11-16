@@ -115,7 +115,7 @@ namespace AccountManagement.API.Controllers
                 return BadRequest("No file uploaded.");
             }
 
-           
+            var accessKey = " ";
             var secretKey = "q572qw2XdRLOTzh9Wt1CcDnv+aqWw1Bo7czlvTSt";
             var bucketName = "jaguigayoma";
             var filePath = Path.Combine(Path.GetTempPath(), file.FileName); 
