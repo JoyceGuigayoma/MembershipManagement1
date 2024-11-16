@@ -3,6 +3,8 @@ using MembershipManagement.API;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using MembershipManagementModels;
+using Amazon.S3.Transfer;
+using Amazon.S3;
 
 namespace AccountManagement.API.Controllers
 {
@@ -105,5 +107,41 @@ namespace AccountManagement.API.Controllers
             }
         }
 
+        [HttpPost("upload_image")]
+        public async Task<IActionResult> UploadUserImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+           
+            var secretKey = "q572qw2XdRLOTzh9Wt1CcDnv+aqWw1Bo7czlvTSt";
+            var bucketName = "jaguigayoma";
+            var filePath = Path.Combine(Path.GetTempPath(), file.FileName); 
+
+            try
+            {
+               
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                var client = new AmazonS3Client(accessKey, secretKey, Amazon.RegionEndpoint.USEast1);
+                var fileTransferUtility = new TransferUtility(client);
+
+                
+                await fileTransferUtility.UploadAsync(filePath, bucketName);
+                System.IO.File.Delete(filePath);  
+
+                return Ok(new { message = "File uploaded successfully", fileName = file.FileName });
+            }
+            catch (AmazonS3Exception e)
+            {
+                return StatusCode(500, new { message = $"Error encountered: {e.Message}" });
+            }
+        }
     }
 }
+    
